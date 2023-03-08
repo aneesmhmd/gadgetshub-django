@@ -1,5 +1,6 @@
-from category.models import Category
+from category.models import Category,Brand
 
 def menu_links(request):
     links = Category.objects.all()
-    return dict(links=links)
+    brands = Brand.objects.all()
+    return dict(links=links,brands=brands)

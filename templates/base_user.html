@@ -39,23 +39,23 @@
     <link rel="stylesheet" type="text/css" href="{% static 'user_home/css/util.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'user_home/css/main.css' %}">
     <!--===============================================================================================-->
-    
+
 </head>
 
 <body class="animsition">
 
     <!-- Header -->
-    <header style="margin-bottom:5%">
+    <header style="margin-bottom:5% bg-light">
 
         <!-- Header desktop -->
         <div class="container-menu-desktop">
             <!-- Blackbar -->
-                      <div class="top-bar">
+            <div class="top-bar">
                 <div class="content-topbar flex-sb-m h-full container">
                 </div>
             </div>
 
-            <div class="wrap-menu-desktop">
+            <div class="wrap-menu-desktop bg-light">
                 <nav class="limiter-menu-desktop container">
 
                     <!-- Website logo -->
@@ -67,7 +67,7 @@
                     <!--Navbar Elements -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
-                            <li class="active-menu">
+                            <li>
                                 <a href="{% url 'home' %}">Home</a>
                             </li>
 
@@ -77,22 +77,21 @@
 
                             <li class="main-menu">
                                 <a href="#">Categories</a>
-                                
+
                                 <ul class="sub-menu">
-                                    {% for category in links  %}
+                                    {% for category in links %}
                                     <li><a href="{{ category.get_url }}">{{ category.cat_name }}</a></li>
                                     {% endfor %}
                                 </ul>
-                                
+
                             </li>
 
                             <li class="main-menu">
                                 <a href="#">Brands</a>
                                 <ul class="sub-menu">
-                                    <li><a href="#">Realme</a></li>
-                                    <li><a href="#">Redmi</a></li>
-                                    <li><a href="#">OnePlus</a></li>
-                                    <li><a href="#">Samsung</a></li>
+                                    {% for brand in brands %}
+                                    <li><a href="{{brand.get_url}}">{{brand.brand_name}}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </li>
 
@@ -111,27 +110,35 @@
                         <div class="menu-desktop">
                             <ul class="main-menu">
                                 <li>
-                                    <a href="#">                
+                                    <a href="#">
                                         <i style="font-size: 20px;" class="fa fa-user"></i>
-                                        <span class="mx-1">Username</span>
+                                        {% if user.is_authenticated %}
+                                        <span class="mx-1">{{user.first_name}}</span>
+                                        {% endif %}
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="#">Register</a></li>
-                                        <li><a href="#">Login</a></li>
-                                        <li><a href="#">My Profile</a></li>
-                                        <li><a href="#">Logout</a></li>
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'dashboard' %}">My Profile</a></li>
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                                        {% else %}
+                                        <li><a href="{% url 'register' %}">Register</a></li>
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                        {% endif %}
+                                      
                                     </ul>
-                                    </ul>
-                                </li>
+                            </ul>
+                            </li>
                             </ul>
                         </div>
 
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                            data-notify="2">
+                        <a href="{% url 'cart' %}">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                            data-notify="{{cart_count}}"> 
                             <i class="fa-solid fa-cart-shopping"></i>
                         </div>
+                    </a>
 
-                        <a href="#"
+                        <a href="{% url 'wishlist' %}"
                             class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                             data-notify="0">
                             <i class="fa-regular fa-heart"></i>
@@ -141,16 +148,16 @@
             </div>
         </div>
 
-        <div class="container-menu-desktop"> 
+        <div class="container-menu-desktop">
         </div>
-            
+
 
         <!-- Responsive header -->
         <div class="wrap-header-mobile">
 
             <!-- Logo Responsive -->
             <div class="logo-mobile">
-                <a href="index.html"><img src="{% static 'user_home/images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'user_home/images/logo/gadgethub.png' %}" alt="IMG-LOGO"></a>
             </div>
 
             <!-- Icon headers -->
@@ -163,12 +170,13 @@
                     <i class="fa-solid fa-user"></i>
                 </div>
 
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-                    data-notify="2">
+                <a href="{% url 'cart' %}">
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                    data-notify="{{cart_count}}">
                     <i class="fa-solid fa-cart-shopping"></i>
-                </div>
+                </div></a>
 
-                <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
                     data-notify="0">
                     <i class="fa-regular fa-heart"></i>
                 </a>
@@ -193,11 +201,11 @@
                 <li><a href="{% url 'allProducts' %}">All Products</a></li>
 
                 <li>
-                    <a href="shoping-cart.html">Categories</a>
+                    <a>Categories</a>
                     <ul class="sub-menu-m">
-                        <li><a href="#">SmartPhones</a></li>
-                        <li><a href="#">Smartwatches</a></li>
-                        <li><a href="#">Earpods</a></li>
+                        {% for category in links %}
+                        <li><a href="{{ category.get_url }}">{{ category.cat_name }}</a></li>
+                        {% endfor %}
                     </ul>
                     <span class="arrow-main-menu-m">
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -205,19 +213,18 @@
                 </li>
 
                 <li>
-                    <a href="shoping-cart.html">Brands</a>
+                    <a>Brands</a>
                     <ul class="sub-menu-m">
-                        <li><a href="#">Realme</a></li>
-                        <li><a href="#">Redmi</a></li>
-                        <li><a href="#">OnePlus</a></li>
-                        <li><a href="#">Samsung</a></li>
+                        {% for brand in brands %}
+                        <li><a href="{{ brand.get_url }}">{{ brand.brand_name }}</a></li>
+                        {% endfor %}
                     </ul>
                     <span class="arrow-main-menu-m">
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </span>
                 </li>
 
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </div>
 
@@ -228,258 +235,164 @@
                     <img src="{% static 'user_home/images/icons/icon-close2.png' %}" alt="CLOSE">
                 </button>
 
-                <form class="wrap-search-header flex-w p-l-15">
-                    <button class="flex-c-m trans-04">
+                <form  action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
+                    <input class="plh3" type="text" placeholder="Search..." name="keyword">
+                    <button class="flex-c-m trans-04 me-3" type="submit">
                         <i class="zmdi zmdi-search"></i>
                     </button>
-                    <input class="plh3" type="text" name="search" placeholder="Search...">
                 </form>
             </div>
         </div>
     </header>
 
 
-    <!-- CART OPENING -->
 
-    <div class="wrap-header-cart js-panel-cart">
-        <div class="s-full js-hide-cart"></div>
 
-        <div class="header-cart flex-col-l p-l-65 p-r-25">
-            <div class="header-cart-title flex-w flex-sb-m p-b-8">
-                <span class="mtext-103 cl2">
-                    Your Cart
-                </span>
+    <!-- =========================================================================================================================================== -->
+    {% block content %}{% endblock content %}
+    <!-- =========================================================================================================================================== -->
 
-                <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-                    <i class="zmdi zmdi-close"></i>
+
+    <!-- Footer -->
+    <footer class="bg3 p-t-75 p-b-32">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        Categories
+                    </h4>
+
+                    <ul>
+                       
+                        {% for category in links %}
+                        <li class="p-b-10">
+                            <a href="{{category.get_url}}" class="stext-107 cl7 hov-cl1 trans-04">
+                                {{category.cat_name}}
+                            </a>
+                        </li>
+                        {% endfor %}
+
+                       
+
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        Help
+                    </h4>
+
+                    <ul>
+                        <li class="p-b-10">
+                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                Track Order
+                            </a>
+                        </li>
+
+                        <li class="p-b-10">
+                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                Returns
+                            </a>
+                        </li>
+
+                        <li class="p-b-10">
+                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                Shipping
+                            </a>
+                        </li>
+
+                        <li class="p-b-10">
+                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                FAQs
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        GET IN TOUCH
+                    </h4>
+
+                    <p class="stext-107 cl7 size-201">
+                        Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us
+                        on +91 8943631166
+                    </p>
+
+                    <div class="p-t-27">
+                        <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+
+                        <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+
+                        <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-pinterest-p"></i>
+                        </a>
+
+                        <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        Newsletter
+                    </h4>
+
+                    <form>
+                        <div class="wrap-input1 w-full p-b-4">
+                            <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+                                placeholder="aneesanz221@gmail.com">
+                            <div class="focus-input1 trans-04"></div>
+                        </div>
+
+                        <div class="p-t-18">
+                            <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <div class="header-cart-content flex-w js-pscroll">
-                <ul class="header-cart-wrapitem w-full">
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="{% static 'user_home/images/item-cart-01.jpg' %}" alt="IMG">
-                        </div>
+            <div class="p-t-40">
+                <div class="flex-c-m flex-w p-b-18">
+                    <a href="#" class="m-all-1">
+                        <img src="{% static 'user_home/images/icons/icon-pay-01.png' %}" alt="ICON-PAY">
+                    </a>
 
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                White Shirt Pleat
-                            </a>
+                    <a href="#" class="m-all-1">
+                        <img src="{% static 'user_home/images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
+                    </a>
 
-                            <span class="header-cart-item-info">
-                                1 x $19.00
-                            </span>
-                        </div>
-                    </li>
+                    <a href="#" class="m-all-1">
+                        <img src="{% static 'user_home/images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
+                    </a>
 
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="{% static 'user_home/images/item-cart-02.jpg' %}" alt="IMG">
-                        </div>
+                    <a href="#" class="m-all-1">
+                        <img src="{% static 'user_home/images/icons/icon-pay-04.png' %}" alt="ICON-PAY">
+                    </a>
 
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Converse All Star
-                            </a>
-
-                            <span class="header-cart-item-info">
-                                1 x $39.00
-                            </span>
-                        </div>
-                    </li>
-
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="{% static 'user_home/images/item-cart-03.jpg' %}" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Nixon Porter Leather
-                            </a>
-
-                            <span class="header-cart-item-info">
-                                1 x $17.00
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="w-full">
-                    <div class="header-cart-total w-full p-tb-40">
-                        Total: $75.00
-                    </div>
-
-                    <div class="header-cart-buttons flex-w w-full">
-                        <a href="cart.html"
-                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                            View Cart
-                        </a>
-
-                        <a href="shoping-cart.html"
-                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                            Check Out
-                        </a>
-                    </div>
+                    <a href="#" class="m-all-1">
+                        <img src="{% static 'user_home/images/icons/icon-pay-05.png' %}" alt="ICON-PAY">
+                    </a>
                 </div>
-            </div>
-        </div>
-    </div>
 
-
-<!-- =========================================================================================================================================== -->
-{% block content %}{% endblock content %}
-<!-- =========================================================================================================================================== -->
-
-
-<!-- Footer -->
-<footer class="bg3 p-t-75 p-b-32">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-lg-3 p-b-50">
-                <h4 class="stext-301 cl0 p-b-30">
-                    Categories
-                </h4>
-
-                <ul>
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            SmarthPhones
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Smartwatches
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Earpods
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="col-sm-6 col-lg-3 p-b-50">
-                <h4 class="stext-301 cl0 p-b-30">
-                    Help
-                </h4>
-
-                <ul>
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Track Order
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Returns
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Shipping
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            FAQs
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-sm-6 col-lg-3 p-b-50">
-                <h4 class="stext-301 cl0 p-b-30">
-                    GET IN TOUCH
-                </h4>
-
-                <p class="stext-107 cl7 size-201">
-                    Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us
-                    on +91 8943631166
+                <p class="stext-107 cl6 txt-center">
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i
+                        class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com"
+                        target="_blank">ThemeWagon</a>
                 </p>
-
-                <div class="p-t-27">
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-pinterest-p"></i>
-                    </a>
-
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa-brands fa-twitter"></i>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-lg-3 p-b-50">
-                <h4 class="stext-301 cl0 p-b-30">
-                    Newsletter
-                </h4>
-
-                <form>
-                    <div class="wrap-input1 w-full p-b-4">
-                        <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-                            placeholder="aneesanz221@gmail.com">
-                        <div class="focus-input1 trans-04"></div>
-                    </div>
-
-                    <div class="p-t-18">
-                        <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-                            Subscribe
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-
-        <div class="p-t-40">
-            <div class="flex-c-m flex-w p-b-18">
-                <a href="#" class="m-all-1">
-                    <img src="{% static 'user_home/images/icons/icon-pay-01.png' %}" alt="ICON-PAY">
-                </a>
-
-                <a href="#" class="m-all-1">
-                    <img src="{% static 'user_home/images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
-                </a>
-
-                <a href="#" class="m-all-1">
-                    <img src="{% static 'user_home/images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
-                </a>
-
-                <a href="#" class="m-all-1">
-                    <img src="{% static 'user_home/images/icons/icon-pay-04.png' %}" alt="ICON-PAY">
-                </a>
-
-                <a href="#" class="m-all-1">
-                    <img src="{% static 'user_home/images/icons/icon-pay-05.png' %}" alt="ICON-PAY">
-                </a>
-            </div>
-
-            <p class="stext-107 cl6 txt-center">
-                Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i
-                    class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                    target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com"
-                    target="_blank">ThemeWagon</a>
-            </p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
 
 
