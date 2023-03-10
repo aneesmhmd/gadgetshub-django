@@ -2,175 +2,155 @@
 
 {% load static %}
 
-{% block title %}Cart{% endblock title %}
+{% block title %}CheckOut{% endblock title %}
 
 {% block content %}
 
+<div class="container">
+    <div class="row m-t-100">
 
 
-<!-- Cart -->
-<form class="bg0 p-t-75 p-b-85">
+        
+        <!--Billing address-->
+        <aside class="col-lg-7 m-b-40 mt-3">
 
-    <div class="container">
+            <!-- breadcrumb -->
+            <div class="bread-crumb flex-w p-r-15 p-t-2 mb-2 p-lr-0-lg">
+                <a href="{% url 'home' %}" class="stext-109 cl8 hov-cl1 trans-04">
+                    Home
+                    <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+                </a>
 
-        <div class="row">
+                <a href="{% url 'cart' %}" class="stext-109 cl8 hov-cl1 trans-04">
+                    Cart
+                    <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+                </a>
 
-            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <span class="stext-109 cl4">
+                    Checkout
+                </span>
+            </div>
+            <!-- end breadcrumb -->
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Billing Address</h4>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6 form-group">
+                                <label for="">First name</label>
+                                <input type="text" name="first_name" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="">Lastname</label>
+                                <input type="text" name="last_name" class="form-control">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="">Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="">Phone Number</label>
+                                <input type="number" name="phone_number" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <label for="">Address</label>
+                                <input type="text" name="address" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="">City</label>
+                                <input type="text" name="city" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="">District</label>
+                                <input type="text" name="district" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <label for="">State</label>
+                                <input type="text" name="state" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <label for="">Country</label>
+                                <input type="text" name="country" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <label for="">PIN code</label>
+                                <input type="text" name="pin" class="form-control" required>
+                            </div>
+                        </div>
+                   
+                </div>
+            </div>
+
+        </aside>
 
 
-                <div class="m-l-25 m-r--38 m-lr-0-xl">
+        <!-- Order overview -->
+        <aside class="col-lg-5 mt-5 mb-5">
 
-                    <!-- breadcrumb -->
-                    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-                        <a href="{% url 'home' %}" class="stext-109 cl8 hov-cl1 trans-04">
-                            Home
-                            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-                        </a>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <tr class="table_head">
+                            <th class="column-1">Product</th>
+                            <th class="column-2"></th>
+                            <th class="column-4 text-center">Quantity</th>
+                            <th class="column-3">Price</th>
+                        </tr>
 
-                        <span class="stext-109 cl4">
-                            Checkout
-                        </span>
-                    </div>
-                    <!-- end breadcrumb -->
-
-
-
-                    <div class="wrap-table-shopping-cart">
-
-
-
-                        <table class="table-shopping-cart">
-                            <tr class="table_head">
-                                <th class="column-1">Product</th>
-                                <th class="column-2"></th>
-                                <th class="column-3">Price</th>
-                                <th class="column-4 text-center">Quantity</th>
-                                <th class="column-5 text-center">Action</th>
-                            </tr>
-
-                            {% for cart_item in cart_items %}
-                            <tr class="table_row">
-                                <td class="column-1">
-                                    <a href="{{cart_item.product.get_url }}" class="text-dark">
+                        {% for cart_item in cart_items %}
+                        <tr class="table_row">
+                            <td class="column-1">
+                                <a href="{{cart_item.product.get_url }}" class="text-dark">
                                     <div class="how-itemcart1">
                                         <img src="{{ cart_item.product.images.url}}" alt="IMG">
                                     </div>
                                 </a>
-                                </td>
-                                <td class="column-2 p-r-15"><a href="{{cart_item.product.get_url }}" class="text-dark">{{ cart_item.product.product_name }}</a></td>
-                                <td class="column-3">
-                                    <div class="price-wrap">
-                                        <h6 class="price">Rs. {{ cart_item.sub_total}}/-</h6>
-                                        <small class="text-muted">({{ cart_item.product.price }} each)</small>
-                                    </div>
-                                </td>
-                                <td class="column-4 text-center">
-                                    <div class="wrap-num-product flex-w py-1">
+                            </td>
+                            <td class="column-2 text-left"><a href="{{cart_item.product.get_url }}"
+                                    class="text-dark">{{ cart_item.product.product_name }}</a>
+                                <p class="text-muted small">
+                                    {% if cart_item.variations.all %}
+                                    {% for item in cart_item.variations.all %}
+                                    {{ item.variation_category | capfirst }} : {{ item.variation_value }}<br>
+                                    {% endfor %}
+                                    {% endif %}
+                                </p>
+                            </td>
+                            <td scope="col" class="text-center">{{ cart_item.quantity}}</td>
 
-                                        <a href="{% url 'remove_cart' cart_item.product.id %}">
-                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                <i class="fs-16 zmdi zmdi-minus"></i>
-                                            </div>
-                                         </a>
-
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="{{ cart_item.quantity }}">
-
-                                        <a href="{% url 'add_cart' cart_item.product.id %}">
-                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                <i class="fs-16 zmdi zmdi-plus"></i>
-                                            </div>
-                                        </a>
-
-                                    </div>
-                                </td>
-                                <td class="column-5 text-center"><a href="{% url 'remove_cart_item' cart_item.product.id %}">
-                                    <i class="fa-solid fa-trash text-danger"></i><a>
-
-                                    </td>
-
-                            </tr>
-                            {% endfor %}
+                            <td class="column-3">
+                                <div class="price-wrap">
+                                    <h6 class="price">Rs.{{ cart_item.sub_total}}/-</h6>
+                                    <small class="text-muted">({{ cart_item.product.price }} each)</small>
+                                </div>
+                            </td>                            
+                        </tr>
+                        {% endfor %}
+                    </table>
 
 
-                        </table>
-                    </div>
+                       
 
-                </div>
-
-            </div>
-
-           
-            <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-t-23">
-                <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-                    <a href="{% url 'home' %}" class="stext-109 cl8 hov-cl1 trans-04">
-
-                        <i class="" aria-hidden="true"></i>
-                    </a>
-
-                    <span class="stext-109 cl4">
-
-                    </span>
-                </div>
-                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-                    <h4 class="mtext-109 cl2 p-b-30">
-                        Cart Totals
-                    </h4>
-
-                    <div class="flex-w flex-t bor12 p-b-13">
-                        <div class="size-208">
-                            <span class="stext-110 cl2">
-                                Subtotal:
-                            </span>
-                        </div>
-
-                        <div class="size-209">
-                            <span class="mtext-110 cl2">
-                                Rs.{{ total }}/-
-                            </span>
-                        </div>
-
-                    
-                        <div class="size-208 mt-3">
-                            <span class="stext-110 cl2">
-                               Tax:
-                            </span>
-                        </div>
-
-                        <div class="size-209 mt-3">
-                            <span class="mtext-110 cl2">
-                                Rs.{{ tax }}/-
-                            </span>
-                        </div>
-                    </div>
-
-                    
-
-                    <div class="flex-w flex-t p-t-27 p-b-33">
-                        <div class="size-208">
-                            <span class="mtext-101 cl2">
-                                Grand Total:
-                            </span>
-                        </div>
-
-                        <div class="size-209 p-t-10">
-                            <span class="mtext-110 cl2">
-                               Rs. {{ grand_total }}.00/-
-                            </span>
-                        </div>
-                    </div>
-                    <a href="{% url 'checkout' %}" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
-                        Place Order
-                    </a>
-                    <a href="{% url 'home' %}" class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
-                        Continue Shopping
-                    </a>
+                    <button type="submit" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">Place Order</button>
+                    <a href="{% url 'allProducts' %}" class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10"> Continue Shopping</a>
+                </form>
                 </div>
             </div>
-    
-       
-
-        </div>
+        </aside>
     </div>
-</form>
+</div>
+
+
 
 {% endblock content %}

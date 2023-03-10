@@ -124,7 +124,7 @@
                                         <li><a href="{% url 'register' %}">Register</a></li>
                                         <li><a href="{% url 'login' %}">Login</a></li>
                                         {% endif %}
-                                      
+
                                     </ul>
                             </ul>
                             </li>
@@ -132,11 +132,11 @@
                         </div>
 
                         <a href="{% url 'cart' %}">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                            data-notify="{{cart_count}}"> 
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </div>
-                    </a>
+                            <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                                data-notify="{{cart_count}}">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </div>
+                        </a>
 
                         <a href="{% url 'wishlist' %}"
                             class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
@@ -157,7 +157,8 @@
 
             <!-- Logo Responsive -->
             <div class="logo-mobile">
-                <a href="{% url 'home' %}"><img src="{% static 'user_home/images/logo/gadgethub.png' %}" alt="IMG-LOGO"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'user_home/images/logo/gadgethub.png' %}"
+                        alt="IMG-LOGO"></a>
             </div>
 
             <!-- Icon headers -->
@@ -171,12 +172,14 @@
                 </div>
 
                 <a href="{% url 'cart' %}">
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-                    data-notify="{{cart_count}}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </div></a>
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                        data-notify="{{cart_count}}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                </a>
 
-                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                <a href="{% url 'wishlist' %}"
+                    class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
                     data-notify="0">
                     <i class="fa-regular fa-heart"></i>
                 </a>
@@ -235,7 +238,7 @@
                     <img src="{% static 'user_home/images/icons/icon-close2.png' %}" alt="CLOSE">
                 </button>
 
-                <form  action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
+                <form action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
                     <input class="plh3" type="text" placeholder="Search..." name="keyword">
                     <button class="flex-c-m trans-04 me-3" type="submit">
                         <i class="zmdi zmdi-search"></i>
@@ -263,7 +266,7 @@
                     </h4>
 
                     <ul>
-                       
+
                         {% for category in links %}
                         <li class="p-b-10">
                             <a href="{{category.get_url}}" class="stext-107 cl7 hov-cl1 trans-04">
@@ -272,7 +275,7 @@
                         </li>
                         {% endfor %}
 
-                       
+
 
                     </ul>
                 </div>
